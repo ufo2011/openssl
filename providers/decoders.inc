@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2020-2023 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -58,6 +58,7 @@ DECODER_w_structure("EC", der, PrivateKeyInfo, ec, yes),
 DECODER_w_structure("EC", der, SubjectPublicKeyInfo, ec, yes),
 DECODER_w_structure("EC", der, type_specific_no_pub, ec, yes),
 DECODER_w_structure("EC", der, EC, ec, yes),
+# ifndef OPENSSL_NO_ECX
 DECODER_w_structure("ED25519", der, PrivateKeyInfo, ed25519, yes),
 DECODER_w_structure("ED25519", der, SubjectPublicKeyInfo, ed25519, yes),
 DECODER_w_structure("ED448", der, PrivateKeyInfo, ed448, yes),
@@ -66,10 +67,20 @@ DECODER_w_structure("X25519", der, PrivateKeyInfo, x25519, yes),
 DECODER_w_structure("X25519", der, SubjectPublicKeyInfo, x25519, yes),
 DECODER_w_structure("X448", der, PrivateKeyInfo, x448, yes),
 DECODER_w_structure("X448", der, SubjectPublicKeyInfo, x448, yes),
+# endif
 # ifndef OPENSSL_NO_SM2
 DECODER_w_structure("SM2", der, PrivateKeyInfo, sm2, no),
 DECODER_w_structure("SM2", der, SubjectPublicKeyInfo, sm2, no),
+DECODER_w_structure("SM2", der, type_specific_no_pub, sm2, no),
 # endif
+#endif
+#ifndef OPENSSL_NO_ML_KEM
+DECODER_w_structure("ML-KEM-512", der, PrivateKeyInfo, ml_kem_512, yes),
+DECODER_w_structure("ML-KEM-512", der, SubjectPublicKeyInfo, ml_kem_512, yes),
+DECODER_w_structure("ML-KEM-768", der, PrivateKeyInfo, ml_kem_768, yes),
+DECODER_w_structure("ML-KEM-768", der, SubjectPublicKeyInfo, ml_kem_768, yes),
+DECODER_w_structure("ML-KEM-1024", der, PrivateKeyInfo, ml_kem_1024, yes),
+DECODER_w_structure("ML-KEM-1024", der, SubjectPublicKeyInfo, ml_kem_1024, yes),
 #endif
 DECODER_w_structure("RSA", der, PrivateKeyInfo, rsa, yes),
 DECODER_w_structure("RSA", der, SubjectPublicKeyInfo, rsa, yes),
@@ -79,6 +90,14 @@ DECODER_w_structure("RSA-PSS", der, PrivateKeyInfo, rsapss, yes),
 DECODER_w_structure("RSA-PSS", der, SubjectPublicKeyInfo, rsapss, yes),
 DECODER("RSA", msblob, rsa, yes),
 DECODER("RSA", pvk, rsa, yes),
+#ifndef OPENSSL_NO_ML_DSA
+DECODER_w_structure("ML-DSA-44", der, PrivateKeyInfo, ml_dsa_44, yes),
+DECODER_w_structure("ML-DSA-65", der, PrivateKeyInfo, ml_dsa_65, yes),
+DECODER_w_structure("ML-DSA-87", der, PrivateKeyInfo, ml_dsa_87, yes),
+DECODER_w_structure("ML-DSA-44", der, SubjectPublicKeyInfo, ml_dsa_44, yes),
+DECODER_w_structure("ML-DSA-65", der, SubjectPublicKeyInfo, ml_dsa_65, yes),
+DECODER_w_structure("ML-DSA-87", der, SubjectPublicKeyInfo, ml_dsa_87, yes),
+#endif /* OPENSSL_NO_ML_DSA */
 
 /*
  * A decoder that takes a SubjectPublicKeyInfo and figures out the types of key
